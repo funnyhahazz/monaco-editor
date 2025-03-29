@@ -85,12 +85,15 @@
         automaticLayout: true,
         minimap: { enabled: false },
         links: true,
-        fontSize: 12.5,
+        fontSize: 14,
         lineNumbers: 'on',
         renderLineHighlight: 'all',
         scrollBeyondLastLine: false,
         tabSize: 2
       });
+
+      document.getElementById('execscript').addEventListener('click', () => {
+        const scriptContent = editor.getValue();
       });
     });
   </script>
