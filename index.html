@@ -62,19 +62,29 @@
         base: 'vs-dark',
         inherit: true,
         rules: [
-          { token: 'comment', foreground: '#555555' },
-          { token: 'keyword', foreground: '#8fbde3' },
-          { token: 'string', foreground: '#6abf69' },
-          { token: 'delimiter.bracket', foreground: '#bfbfbf' },
-          { token: 'number', foreground: '#e3e08f' },
+          { token: 'comment', foreground: '#8C8C8C' },
+					{ token: 'keyword', foreground: '#9B84FF' },
+					{ token: 'keyword.local', foreground: '#836EFF' },
+					{ token: 'keyword.operator', foreground: '#75D6FF' },
+					{ token: 'keyword.operator.type.annotation', foreground: '#A5B2FF' },
+					{ token: 'keyword.operator.typedef.annotation', foreground: '#75D6FF' },
+					{ token: 'keyword.control.export', foreground: '#836EFF', fontStyle: 'italic' },
+          { token: 'string', foreground: '#B2F2A6' },
+          { token: 'global', foreground: '#75D6FF' },
+          { token: 'number', foreground: '#6699FF' },
+          { token: 'delimiter.longstring', foreground: '#75D6FF' },
+					{ token: 'delimiter.bracket', foreground: '#C3C6CF' },
+					{ token: 'delimiter.array', foreground: '#C3C6CF' },
+					{ token: 'delimiter.parenthesis', foreground: '#C3C6CF' },
+					{ token: 'delimiter', foreground: '#C3C6CF' },
         ],
         colors: {
-            'editor.background': '#080808',
-            'editor.lineHighlightBackground': '#0a0a0a',
+            'editor.background': '#08080a',
+            'editor.lineHighlightBackground': '#0a0a0c',
           'editor.selectionBackground': '#264f78',
           'editorWhitespace.foreground': '#ffffff0b',
-          'editor.foreground': '#bfbfbf'
-            ,'editor.lineHighlightBorder': '#0c0c0c'
+          'editor.foreground': '#E0E0F5'
+            ,'editor.lineHighlightBorder': '#0c0c0e'
         }
       });
 
