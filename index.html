@@ -11,7 +11,6 @@
       padding: 0;
       box-sizing: border-box;
     }
-
     body {
       background-color: rgb(8,8,8);
       font-family: 'Inter', sans-serif;
@@ -21,14 +20,12 @@
       display: flex;
       flex-direction: column;
     }
-
     #monaco-container {
       flex-grow: 1;
       display: flex;
       margin: 2px;
       border-bottom: 0.5px solid rgb(12,12,12);
     }
-
     #monaco-editor {
       width: 100%;
       height: 100%;
@@ -42,6 +39,7 @@
   <div id="monaco-container">
     <div id="monaco-editor"></div>
   </div>
+
   <script>
     let editor;
 
@@ -76,7 +74,7 @@
         }
       });
 
-      // Register Luau language
+      // Register Luau
       monaco.languages.register({ id: 'luau' });
 
       monaco.languages.setMonarchTokensProvider('luau', {
@@ -97,43 +95,77 @@
         }
       });
 
-      // Provide Luau IntelliSense
+      const Completions = [
+        'sethiddenproperty',
+        'gethiddenproperty',
+        'gethui',
+        'getconnections',
+        'getnilinstances',
+        'getinstances',
+        'getscriptclosure',
+        'getconstants',
+        'getupvalues',
+        'setupvalue',
+        'getupvalue',
+        'getinfo',
+        'iscclosure',
+        'islclosure',
+        'getgenv',
+        'getrenv',
+        'getsenv',
+        'getreg',
+        'getgc',
+        'hookfunction',
+        'newcclosure',
+        'checkcaller',
+        'isourclosure',
+        'isexecutorclosure',
+        'identifyexecutor',
+        'rconsoleprint',
+        'rconsoleinfo',
+        'rconsolewarn',
+        'rconsoleerr',
+        'rconsoleclear',
+        'rconsolename',
+        'setreadonly',
+        'issreadonly',
+        'firetouchinterest',
+        'getloadedmodules',
+        'getcallingscript',
+        'getnamecallmethod',
+        'setnamecallmethod',
+        'getrawmetatable',
+        'setrawmetatable',
+        'getinstancefromstate',
+        'lz4compress',
+        'lz4decompress',
+        'messagebox',
+        'queueonteleport',
+        'hookmetamethod',
+        'make_writeable',
+        'make_readonly',
+        'get_thread_context',
+        'replicatesignal',
+        'cansignalreplicate',
+        'isnetworkowner',
+        'getclipboard',
+        'setclipboard',
+        'request'
+      ].map(name => ({
+        label: name,
+        kind: monaco.languages.CompletionItemKind.Function,
+        insertText: name + '(${1})',
+        insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
+        documentation: `RainAPI function: ${name}`
+      }));
+
       monaco.languages.registerCompletionItemProvider('luau', {
         provideCompletionItems: () => {
-          const suggestions = [
-            {
-              label: 'print',
-              kind: monaco.languages.CompletionItemKind.Function,
-              insertText: 'print(${1:text})',
-              insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
-              documentation: 'Outputs text to the console'
-            },
-            {
-              label: 'Vector3.new',
-              kind: monaco.languages.CompletionItemKind.Function,
-              insertText: 'Vector3.new(${1:x}, ${2:y}, ${3:z})',
-              insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
-              documentation: 'Creates a new Vector3'
-            },
-            {
-              label: 'for loop',
-              kind: monaco.languages.CompletionItemKind.Snippet,
-              insertText: [
-                'for ${1:i} = 1, ${2:10} do',
-                '\t$0',
-                'end'
-              ].join('\n'),
-              insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
-              documentation: 'Luau numeric for loop'
-            }
-          ];
-          return { suggestions };
+          return { suggestions: Completions };
         }
       });
-
-      // Init the editor with Luau support
       editor = monaco.editor.create(document.getElementById('monaco-editor'), {
-        value: "-- Write your Luau script here\n",
+        value: "-- Write Luau / UNC script here",
         language: "luau",
         theme: "Rain",
         automaticLayout: true,
@@ -144,12 +176,6 @@
         renderLineHighlight: 'all',
         scrollBeyondLastLine: false,
         tabSize: 2
-      });
-
-      // Optional exec button listener (placeholder)
-      document.getElementById('execscript')?.addEventListener('click', () => {
-        const scriptContent = editor.getValue();
-        console.log('Executed script:', scriptContent);
       });
     });
   </script>
