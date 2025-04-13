@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>monaco by compilerwarning</title>
+  <title>monaco</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.45.0/min/vs/loader.min.js"></script>
 <style>
   * {
@@ -58,22 +58,22 @@
     };
 
     require(['vs/editor/editor.main'], function(monaco) {
-      monaco.editor.defineTheme('RoCoreDark', {
+      monaco.editor.defineTheme('Rain', {
         base: 'vs-dark',
         inherit: true,
         rules: [
           { token: 'comment', foreground: '#555555' },
-          { token: 'keyword', foreground: '#8fbde3' },
-          { token: 'string', foreground: '#6abf69' },
-          { token: 'delimiter.bracket', foreground: '#bfbfbf' },
-          { token: 'number', foreground: '#e3e08f' },
+          { token: 'keyword', foreground: '#a1bffc' },
+          { token: 'string', foreground: '#cbe5a1' },
+          { token: 'delimiter.bracket', foreground: '#fffffa' },
+          { token: 'number', foreground: '#ffd895' },
         ],
         colors: {
             'editor.background': '#080808',
             'editor.lineHighlightBackground': '#0a0a0a',
-          'editor.selectionBackground': '#264f78',
+          'editor.selectionBackground': '#33264F78',
           'editorWhitespace.foreground': '#ffffff0b',
-          'editor.foreground': '#bfbfbf'
+          'editor.foreground': '#fffffa'
             ,'editor.lineHighlightBorder': '#0e0e0e'
         }
       });
@@ -81,7 +81,7 @@
       editor = monaco.editor.create(document.getElementById('monaco-editor'), {
         value: "",
         language: "lua",
-        theme: "RoCoreDark",
+        theme: "Rain",
         automaticLayout: true,
         minimap: { enabled: false },
         links: true,
