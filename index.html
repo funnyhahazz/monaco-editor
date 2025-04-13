@@ -5,38 +5,38 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>monaco</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.45.0/min/vs/loader.min.js"></script>
-<style>
-  * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-  body {
-    background-color: rgb(8,8,8);
-    font-family: 'Inter', sans-serif;
-    color: rgb(184, 184, 184);
-    height: 100vh;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-  }
+    body {
+      background-color: rgb(8,8,8);
+      font-family: 'Inter', sans-serif;
+      color: rgb(184, 184, 184);
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
 
-  #monaco-container {
-    flex-grow: 1;
-    display: flex;
-    margin: 2px;
-    border-bottom: 0.5px solid rgb(12,12,12);
-  }
+    #monaco-container {
+      flex-grow: 1;
+      display: flex;
+      margin: 2px;
+      border-bottom: 0.5px solid rgb(12,12,12);
+    }
 
-  #monaco-editor {
-    width: 100%;
-    height: 100%;
-    background-color: rgb(10, 10, 10);
-    color: rgb(145, 145, 145);
-    font-family: 'Courier New', Courier, monospace;
-  }
-</style>
+    #monaco-editor {
+      width: 100%;
+      height: 100%;
+      background-color: rgb(10, 10, 10);
+      color: rgb(145, 145, 145);
+      font-family: 'Courier New', Courier, monospace;
+    }
+  </style>
 </head>
 <body>
   <div id="monaco-container">
@@ -63,20 +63,78 @@
         inherit: true,
         rules: [
           { token: 'keyword', foreground: '#9cdcfe' },
-          { token: 'global', foreground: '#569cd6' },
+          { token: 'type.identifier', foreground: '#569cd6' },
           { token: 'number', foreground: '#cbe5a1' },
+          { token: 'string', foreground: '#ce9178' },
+          { token: 'comment', foreground: '#6A9955' }
         ],
         colors: {
-            'editor.background': '#080808',
-            'editor.lineHighlightBackground': '#0a0a0a',
+          'editor.background': '#080808',
+          'editor.lineHighlightBackground': '#0a0a0a',
           'editor.selectionBackground': '#264f78',
           'editorWhitespace.foreground': '#ffffff0b'
         }
       });
 
+      // Register Luau language
+      monaco.languages.register({ id: 'luau' });
+
+      monaco.languages.setMonarchTokensProvider('luau', {
+        tokenizer: {
+          root: [
+            [/\b(local|function|return|if|then|else|elseif|end|for|in|do|while|repeat|until|break|and|or|not|nil|true|false)\b/, 'keyword'],
+            [/\b(game|workspace|script|print|wait|Vector3|CFrame|Instance)\b/, 'type.identifier'],
+            [/[a-zA-Z_]\w*/, 'identifier'],
+            { include: '@whitespace' },
+            [/\d+/, 'number'],
+            [/".*?"/, 'string'],
+            [/--.*/, 'comment']
+          ],
+          whitespace: [
+            [/[ \t\r\n]+/, 'white'],
+            [/--.*/, 'comment'],
+          ],
+        }
+      });
+
+      // Provide Luau IntelliSense
+      monaco.languages.registerCompletionItemProvider('luau', {
+        provideCompletionItems: () => {
+          const suggestions = [
+            {
+              label: 'print',
+              kind: monaco.languages.CompletionItemKind.Function,
+              insertText: 'print(${1:text})',
+              insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
+              documentation: 'Outputs text to the console'
+            },
+            {
+              label: 'Vector3.new',
+              kind: monaco.languages.CompletionItemKind.Function,
+              insertText: 'Vector3.new(${1:x}, ${2:y}, ${3:z})',
+              insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
+              documentation: 'Creates a new Vector3'
+            },
+            {
+              label: 'for loop',
+              kind: monaco.languages.CompletionItemKind.Snippet,
+              insertText: [
+                'for ${1:i} = 1, ${2:10} do',
+                '\t$0',
+                'end'
+              ].join('\n'),
+              insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
+              documentation: 'Luau numeric for loop'
+            }
+          ];
+          return { suggestions };
+        }
+      });
+
+      // Init the editor with Luau support
       editor = monaco.editor.create(document.getElementById('monaco-editor'), {
-        value: "",
-        language: "lua",
+        value: "-- Write your Luau script here\n",
+        language: "luau",
         theme: "Rain",
         automaticLayout: true,
         minimap: { enabled: false },
@@ -88,8 +146,10 @@
         tabSize: 2
       });
 
-      document.getElementById('execscript').addEventListener('click', () => {
+      // Optional exec button listener (placeholder)
+      document.getElementById('execscript')?.addEventListener('click', () => {
         const scriptContent = editor.getValue();
+        console.log('Executed script:', scriptContent);
       });
     });
   </script>
